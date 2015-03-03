@@ -36,3 +36,6 @@ php_display_errors: "Off"
 # Miscellaneous
 # expose_php [on | off]
 php_expose_php: "Off"
+
+#php_max_input_nesting_level: 64
+#php_max_input_vars: 1000

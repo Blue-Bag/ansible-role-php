@@ -40,6 +40,12 @@ max_execution_time = {{ php_max_execution_time }}
 max_input_time = {{ php_max_input_time }}
 ;max_input_nesting_level = 64
 ; max_input_vars = 1000
+{% if php_max_input_nesting_level is defined %}
+max_input_nesting_level={{ php_max_input_nesting_level }}
+{% endif %}
+{% if php_max_input_vars  is defined %}
+max_input_vars={{ php_max_input_vars }}
+{% endif %}
 memory_limit = {{ php_memory_limit }}
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
