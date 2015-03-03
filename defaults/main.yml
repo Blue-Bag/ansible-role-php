@@ -48,3 +48,8 @@ php_post_max_size: "32M"
 
 # ; File Uploads ;
 php_max_file_uploads: "20"
+
+# ; Fopen wrappers ;
+php_allow_url_fopen: "Off"
+php_allow_url_include: "Off"
+php_default_socket_timeout: "60"
