@@ -45,3 +45,6 @@ php_expose_php: "Off"
 
 # ; Data Handling ;
 php_post_max_size: "32M"
+
+# ; File Uploads ;
+php_max_file_uploads: "20"
