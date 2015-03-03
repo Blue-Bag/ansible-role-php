@@ -1,5 +1,5 @@
 ---
-- name: Ensure PHP packages are installed.
+- name: Ensure PHP packages are installed (RedHat).
   yum:
     name: "{{ item }}"
     state: installed

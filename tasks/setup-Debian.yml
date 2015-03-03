@@ -1,8 +1,8 @@
 ---
-- name: Update apt cache.
+- name: Update apt cache (Debian).
   apt: update_cache=yes cache_valid_time=86400
 
-- name: Ensure PHP packages are installed.
+- name: Ensure PHP packages are installed (Debian).
   apt:
     name: "{{ item }}"
     state: installed
