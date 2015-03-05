@@ -24,6 +24,9 @@
 
 - include: setup-Debian.yml
   when: ansible_os_family == 'Debian'
+  
+# Chek PHP version
+- include: php-version.yml  
 
 # Configure PHP.
 - include: configure.yml
