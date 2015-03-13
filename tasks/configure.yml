@@ -13,7 +13,7 @@
     dest: "{{ php_conf_path }}/php.ini"
     owner: root
     group: root
-    mode: 0644
+    mode: 0600
   notify: restart webserver
   when: php_use_managed_ini
 
@@ -24,7 +24,7 @@
     owner: root
     group: root
     force: yes
-    mode: 0644
+    mode: 0600
   when: php_enable_apc
   notify: restart webserver
 
