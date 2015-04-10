@@ -16,6 +16,7 @@
     mode: 0600
   notify: restart webserver
   when: php_use_managed_ini
+  sudo: true
 
 - name: Place APC configuration file in place.
   template:
