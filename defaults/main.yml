@@ -54,6 +54,10 @@ php_allow_url_fopen: "Off"
 php_allow_url_include: "Off"
 php_default_socket_timeout: "60"
 
+# session handling (files | redis)
+php_session_handler: 'files'
+php_session_save_path:  "/tmp"
+
 # ; Opcache  ;
 # Determines if Zend OPCache is enabled
 #opcache.enable=0

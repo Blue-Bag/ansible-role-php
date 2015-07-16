@@ -1,5 +1,5 @@
 [PHP]
-{{ ansible_managed }}
+;{{ ansible_managed }}
 ;;;;;;;;;;;;;;;;;;;;
 ; Language Options ;
 ;;;;;;;;;;;;;;;;;;;;
@@ -278,8 +278,9 @@ bcmath.scale = 0
 ;browscap = extra/browscap.ini
 
 [Session]
-session.save_handler = files
+session.save_handler = {{ php_session_handler | default('files') }}
 ;session.save_path = "/tmp"
+session.save_path = "{{ php_session_save_path | default('/tmp') }}"
 session.use_cookies = 1
 ;session.cookie_secure =
 session.use_only_cookies = 1
@@ -394,7 +395,7 @@ ldap.max_links = -1
 {% if opcache_present is defined and opcache_present %}
 [opcache]
 opcache.enable={{ opcache_enable }}
-opcache.enable_cli={{ opcache_enable_cli }} 
+opcache.enable_cli={{ opcache_enable_cli }}
 opcache.memory_consumption={{ opcache_memory_consumption }}
 opcache.interned_strings_buffer={{ opcache_interned_strings_buffer }}
 opcache.max_accelerated_files={{ opcache_max_accelerated_files }}
