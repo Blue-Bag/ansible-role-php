@@ -8,6 +8,22 @@ php_enable_webserver: true
 # Start and enable the PHP fpm service.
 php_enable_php_fpm: false
 
+# The executable to run when calling PHP from the command line.
+php_executable: "php"
+
+# OpCache settings (useful for PHP >=5.5).
+php_opcache_enabled_in_ini: false
+php_opcache_enable: "1"
+php_opcache_enable_cli: "0"
+php_opcache_memory_consumption: "96"
+php_opcache_interned_strings_buffer: "16"
+php_opcache_max_accelerated_files: "4096"
+php_opcache_max_wasted_percentage: "5"
+php_opcache_validate_timestamps: "1"
+php_opcache_revalidate_freq: "2"
+php_opcache_max_file_size: "0"
+php_opcache_fast_shutdown: 1
+
 # APC settings (useful for PHP <5.5).
 php_enable_apc: true
 php_apc_enabled_in_ini: false
@@ -20,11 +36,14 @@ php_apc_enable_cli: "0"
 # Any and all changes to /etc/php.ini will be your responsibility.
 php_use_managed_ini: true
 
+php_expose_php: "Off"
 php_memory_limit: "256M"
 php_max_execution_time: "60"
 php_max_input_time: "60"
+php_max_input_vars: "1000"
 php_realpath_cache_size: "32K"
 php_upload_max_filesize: "64M"
+php_post_max_size: "32M"
 php_date_timezone: "America/Chicago"
 
 php_sendmail_path: "/usr/sbin/sendmail -t -i"
@@ -33,18 +52,9 @@ php_short_open_tag: false
 php_error_reporting: "E_ALL & ~E_DEPRECATED & ~E_STRICT"
 php_display_errors: "Off"
 php_display_startup_errors: "Off"
+
 php_log_errors: "On"
 php_html_errors: "On"
-
-# Miscellaneous
-# expose_php [on | off]
-php_expose_php: "Off"
-
-#php_max_input_nesting_level: 64
-#php_max_input_vars: 1000
-
-# ; Data Handling ;
-php_post_max_size: "32M"
 
 # ; File Uploads ;
 php_max_file_uploads: "20"
@@ -58,33 +68,78 @@ php_default_socket_timeout: "60"
 php_session_handler: 'files'
 php_session_save_path:  "/tmp"
 
+# Install PHP from source (instead of using a package manager) with these vars.
+php_install_from_source: false
+php_source_version: "master"
+php_source_clone_dir: "~/php-src"
+php_source_install_path: "/opt/php"
+# For faster compile time: "make --jobs=X" where X is # of cores present.
+php_source_make_command: "make"
+php_source_configure_command: >
+  ./configure
+  --prefix={{ php_source_install_path }}
+  --with-config-file-path={{ php_conf_path }}
+  --enable-mbstring
+  --enable-zip
+  --enable-bcmath
+  --enable-pcntl
+  --enable-ftp
+  --enable-exif
+  --enable-calendar
+  --enable-opcache
+  --enable-pdo
+  --enable-sysvmsg
+  --enable-sysvsem
+  --enable-sysvshm
+  --enable-wddx
+  --with-curl
+  --with-mcrypt
+  --with-iconv
+  --with-gmp
+  --with-pspell
+  --with-gd
+  --with-jpeg-dir=/usr
+  --with-png-dir=/usr
+  --with-zlib-dir=/usr
+  --with-xpm-dir=/usr
+  --with-freetype-dir=/usr
+  --enable-gd-native-ttf
+  --enable-gd-jis-conv
+  --with-openssl
+  --with-pdo-mysql=/usr
+  --with-gettext=/usr
+  --with-zlib=/usr
+  --with-bz2=/usr
+  --with-recode=/usr
+  --with-mysqli=/usr/bin/mysql_config
+
 # ; Opcache  ;
 # Determines if Zend OPCache is enabled
 #opcache.enable=0
-opcache_enable: 0
-# Determines if Zend OPCache is enabled for the CLI version of PHP
-#opcache.enable_cli=0
-opcache_enable_cli: 0
-# The OPcache shared memory storage size.
-#opcache.memory_consumption=64
-opcache_memory_consumption: 64
-# The amount of memory for interned strings in Mbytes.
-#opcache.interned_strings_buffer=4
-opcache_interned_strings_buffer: 4
-# The maximum number of keys (scripts) in the OPcache hash table.
-# Only numbers between 200 and 100000 are allowed.
-#opcache.max_accelerated_files=2000
-opcache_max_accelerated_files: 2000
-# When disabled, you must reset the OPcache manually or restart the
-# webserver for changes to the filesystem to take effect.
-#opcache.validate_timestamps=1
-# only set to zero in production
-opcache_validate_timestamps: 1
-# How often (in seconds) to check file timestamps for changes to the shared
-# memory storage allocation. ("1" means validate once per second, but only
-# once per request. "0" means always validate)
-#opcache.revalidate_freq=2
-opcache_revalidate_freq: 2
-# If enabled, a fast shutdown sequence is used for the accelerated code
-#opcache.fast_shutdown=0
-opcache_fast_shutdown: 1
+# opcache_enable: 0
+# # Determines if Zend OPCache is enabled for the CLI version of PHP
+# #opcache.enable_cli=0
+# opcache_enable_cli: 0
+# # The OPcache shared memory storage size.
+# #opcache.memory_consumption=64
+# opcache_memory_consumption: 64
+# # The amount of memory for interned strings in Mbytes.
+# #opcache.interned_strings_buffer=4
+# opcache_interned_strings_buffer: 4
+# # The maximum number of keys (scripts) in the OPcache hash table.
+# # Only numbers between 200 and 100000 are allowed.
+# #opcache.max_accelerated_files=2000
+# opcache_max_accelerated_files: 2000
+# # When disabled, you must reset the OPcache manually or restart the
+# # webserver for changes to the filesystem to take effect.
+# #opcache.validate_timestamps=1
+# # only set to zero in production
+# opcache_validate_timestamps: 1
+# # How often (in seconds) to check file timestamps for changes to the shared
+# # memory storage allocation. ("1" means validate once per second, but only
+# # once per request. "0" means always validate)
+# #opcache.revalidate_freq=2
+# opcache_revalidate_freq: 2
+# # If enabled, a fast shutdown sequence is used for the accelerated code
+# #opcache.fast_shutdown=0
+# opcache_fast_shutdown: 1
