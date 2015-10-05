@@ -1,4 +1,4 @@
-; {ansible_managed}
+; {{ ansible_managed }}
 {% if php_opcache_enabled_in_ini %}
 zend_extension=opcache.so
 {% endif %}
