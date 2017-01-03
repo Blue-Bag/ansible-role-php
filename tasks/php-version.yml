@@ -1,0 +1,17 @@
+---
+
+# Figure out what version of PHP is installed.
+- name: Get installed version of PHP.
+  command: "php -v"
+  changed_when: false
+  always_run: yes
+  register: _php_version
+  
+
+- name: Check for Opcache
+  set_fact:
+    opcache_present: true
+  when: _php_version.stdout.find('with Zend OPcache') != -1
+  
+
+  
