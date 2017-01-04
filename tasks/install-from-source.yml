@@ -1,17 +1,28 @@
 ---
 - name: Ensure dependencies for building from source are installed (RedHat).
-  yum: "pkg={{ item }} state=installed"
+  package: "name={{ item }} state=installed"
   with_items:
+    - autoconf
+    - automake
+    - libtool
+    - bison
+    - make
+    - curl-devel
     - recode-devel
     - aspell-devel
+    - libxml2-devel
+    - pkgconfig
     - libmcrypt-devel
     - t1lib-devel
     - libXpm-devel
     - libpng-devel
     - libjpeg-turbo-devel
     - bzip2-devel
-    - openssl-libs
+    - openssl-devel
+    - freetype-devel
     - libicu-devel
+    - mariadb-devel
+    - gmp-devel
   when: ansible_os_family == 'RedHat'
 
 - name: Update apt cache (Debian).
@@ -26,6 +37,7 @@
     - automake
     - libtool
     - bison
+    - pkg-config
     - re2c
     - libxml2-dev
     - libcurl4-openssl-dev
@@ -39,7 +51,13 @@
     - libmysqlclient-dev
     - libpspell-dev
     - librecode-dev
+    - libssl-dev
   when: ansible_os_family == 'Debian'
+
+- name: Define php_fpm_daemon (if not defined already).
+  set_fact:
+    php_fpm_daemon: "php-fpm"
+  when: php_fpm_daemon is not defined
 
 - name: Check if gmp.h is already in a location accessible to gcc.
   stat: path=/usr/include/gmp.h
@@ -47,7 +65,7 @@
 
 - name: Ensure gmp.h is symlinked into a location accessible to gcc.
   file:
-    src: /usr/include/x86_64-linux-gnu/gmp.h
+    src: "{{ php_source_install_gmp_path }}"
     dest: /usr/include/gmp.h
     state: link
   when: gmp_file.stat.exists == false
@@ -64,7 +82,7 @@
     dest: "{{ php_source_clone_dir }}"
     version: "{{ php_source_version }}"
     accept_hostkey: yes
-    depth: 1
+    depth: "{{ php_source_clone_depth }}"
   when: php_installed|failed
 
 - name: Ensure PHP installation path exists.
@@ -119,14 +137,14 @@
 
 - name: Ensure php-fpm config directory exists.
   file:
-    path: "{{ php_conf_path }}/fpm"
+    path: "{{ php_fpm_conf_path }}"
     state: directory
   when: "'--enable-fpm' in php_source_configure_command"
 
 - name: Ensure php-fpm config file is installed.
   template:
     src: php-fpm.conf.j2
-    dest: "{{ php_conf_path }}/fpm/php-fpm.conf"
+    dest: "{{ php_fpm_conf_path }}/php-fpm.conf"
     mode: 0644
   when: "'--enable-fpm' in php_source_configure_command"
   notify: restart php-fpm
