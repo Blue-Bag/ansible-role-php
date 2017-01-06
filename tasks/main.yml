@@ -25,6 +25,7 @@
       set_fact:
         php_extension_conf_paths: "{{ __php_extension_conf_paths5 }}"
       when: php_extension_conf_paths is not defined
+
   when: php_version == 5
 
 - block:
@@ -43,6 +44,7 @@
       set_fact:
         php_extension_conf_paths: "{{ __php_extension_conf_paths7 }}"
       when: php_extension_conf_paths is not defined
+
   when: php_version == 7
 
 
