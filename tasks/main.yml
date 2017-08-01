@@ -16,6 +16,12 @@
         php_packages: "{{ __php_packages5 | list }}"
       when: php_packages is not defined
 
+
+    - name: Define extra php_packages.
+      set_fact:
+        php_packages: "{{ php_packages | list + php_packages_extra | list }}"
+      when: php_packages_extra is defined
+
     - name: Define php_conf_path.
       set_fact:
         php_conf_paths: "{{ __php_conf_paths5 }}"
@@ -34,6 +40,11 @@
       set_fact:
         php_packages: "{{ __php_packages7 | list }}"
       when: php_packages is not defined
+
+    - name: Define extra php_packages.
+      set_fact:
+        php_packages: "{{ php_packages | list + php_packages_extra | list }}"
+      when: php_packages_extra is defined
 
     - name: Define php_conf_path.
       set_fact:

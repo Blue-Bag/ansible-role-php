@@ -27,8 +27,10 @@ __php_packages7:
   - php7.0-opcache
   - php7.0-xml
   - php7.0-mbstring
-  - php7.0-sqlite3
-  - php7.0-apcu
+  - php-sqlite3
+  - php-pear
+  - php7.0-soap
+  # - php-apcu
 
 __php_webserver_daemon: "apache2"
 

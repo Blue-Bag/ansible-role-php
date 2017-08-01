@@ -3,6 +3,28 @@
   apt: update_cache=yes cache_valid_time=86400
   when: apt_update is not defined
 
+- block:
+    # set packages by version
+    - name: Add Dotdeb packages key
+      apt_key:
+        url: "https://www.dotdeb.org/dotdeb.gpg"
+        state: present
+      when: php_version == 7
+
+
+    - name: Add the dotdeb repos
+      apt_repository:
+        repo: "{{ item }}"
+        state: present
+        filename: "/etc/apt/sources.list.d/dotdeb.list"
+        update_cache: yes
+      with_items:
+         - "deb http://packages.dotdeb.org jessie all"
+         - "deb-src http://packages.dotdeb.org jessie all"
+
+  when: php_version == 7 and ansible_distribution_release == 'jessie'
+
+
 - name: Ensure PHP packages are installed (Debian).
   apt:
     name: "{{ item }}"
