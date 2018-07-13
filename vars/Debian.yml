@@ -14,23 +14,43 @@ __php_packages5:
   - libpcre3-dev
 
 __php_packages7:
-  - libapache2-mod-php7.0
-  - php7.0-common
-  - php7.0-cli
-  - php7.0-dev
-  - php7.0-fpm
+  - libapache2-mod-php{{ php_version }}
+  - php{{ php_version }}-common
+  - php{{ php_version }}-cli
+  - php{{ php_version }}-dev
+  - php{{ php_version }}-fpm
   - libpcre3-dev
-  - php7.0-gd
-  - php7.0-curl
-  - php7.0-imap
-  - php7.0-json
-  - php7.0-opcache
-  - php7.0-xml
-  - php7.0-mbstring
-  - php-sqlite3
-  - php-pear
-  - php7.0-soap
+  - php{{ php_version }}-gd
+  - php{{ php_version }}-curl
+  - php{{ php_version }}-imap
+  - php{{ php_version }}-json
+  - php{{ php_version }}-opcache
+  - php{{ php_version }}-xml
+  - php{{ php_version }}-mbstring
+  - php{{ php_version }}-sqlite3
+  - php{{ php_version }}-soap
   # - php-apcu
+  #  - php{{ php_version }}-pear
+
+# php7.1-mysql
+# php7.1-cgi
+# php-pear
+# php-auth
+# php7.1-mcrypt
+# mcrypt
+# imagemagick
+# libruby
+# php7.1-intl
+# php7.1-pspell
+# php7.1-recode
+# php7.1-tidy
+# php7.1-xmlrpc
+# php7.1-xsl
+# memcached
+# php-memcache
+# php-imagick
+# php-gettext
+# php7.1-zip
 
 __php_webserver_daemon: "apache2"
 
@@ -50,19 +70,19 @@ __php_extension_conf_paths5:
 
 
 __php_conf_paths7:
-  - /etc/php/7.0/fpm
-  - /etc/php/7.0/apache2
-  - /etc/php/7.0/cli
+  - /etc/php/{{ php_version }}/fpm
+  - /etc/php/{{ php_version }}/apache2
+  - /etc/php/{{ php_version }}/cli
 
 __php_extension_conf_paths7:
-  - /etc/php/7.0/fpm/conf.d
-  - /etc/php/7.0/apache2/conf.d
-  - /etc/php/7.0/cli/conf.d
+  - /etc/php/{{ php_version }}/fpm/conf.d
+  - /etc/php/{{ php_version }}/apache2/conf.d
+  - /etc/php/{{ php_version }}/cli/conf.d
 
 __php_apc_conf_filename: 20-apcu.ini
-__php_opcache_conf_filename: 05-opcache.ini
-__php_fpm_daemon: php7.0-fpm
-__php_fpm_conf_path: "/etc/php/7.0/fpm"
+__php_opcache_conf_filename: 10-opcache.ini
+__php_fpm_daemon: php{{ php_version }}-fpm
+__php_fpm_conf_path: "/etc/php/{{ php_version }}/fpm"
 __php_fpm_pool_conf_path: "{{ __php_fpm_conf_path }}/pool.d/www.conf"
 
 __php_fpm_pool_user: www-data

@@ -4,7 +4,7 @@
 php_enablerepo: ""
 
 php_version: 5
-# php_version: 7
+# php_version: 7.1
 
 # PHP package state; use 'present' to make sure it's installed, or 'latest' if
 # you want to upgrade or switch versions using a new repo.

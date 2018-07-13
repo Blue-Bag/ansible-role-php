@@ -56,7 +56,7 @@
         php_extension_conf_paths: "{{ __php_extension_conf_paths7 }}"
       when: php_extension_conf_paths is not defined
 
-  when: php_version == 7
+  when: php_version >= 7.0
 
 
 - name: Define php_apc_conf_filename.
