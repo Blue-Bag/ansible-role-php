@@ -1,8 +1,5 @@
 ; {{ ansible_managed }}
-{% if php_opcache_enabled_in_ini %}
-zend_extension=opcache.so
-{% endif %}
-
+zend_extension={{ php_opcache_zend_extension }}
 opcache.enable={{ php_opcache_enable }}
 opcache.enable_cli={{ php_opcache_enable_cli }}
 opcache.memory_consumption={{ php_opcache_memory_consumption }}
@@ -10,21 +7,21 @@ opcache.interned_strings_buffer={{ php_opcache_interned_strings_buffer }}
 opcache.max_accelerated_files={{ php_opcache_max_accelerated_files }}
 opcache.max_wasted_percentage={{ php_opcache_max_wasted_percentage }}
 opcache.validate_timestamps={{ php_opcache_validate_timestamps }}
+opcache.revalidate_path={{ php_opcache_revalidate_path }}
 opcache.revalidate_freq={{ php_opcache_revalidate_freq }}
 opcache.max_file_size={{ php_opcache_max_file_size }}
+{% if php_opcache_blacklist_filename != '' %}
+opcache.blacklist_filename={{ php_opcache_blacklist_filename }}
+{% endif %}
 opcache.fast_shutdown={{ php_opcache_fast_shutdown }}
 
 
-;opcache.max_wasted_percentage=5
 ;opcache.use_cwd=1
-;opcache.revalidate_path=0
 ;opcache.save_comments=1
 ;opcache.load_comments=1
 ;opcache.enable_file_override=0
 ;opcache.optimization_level=0xffffffff
 ;opcache.inherited_hack=1opcache.dups_fix=0
-;opcache.blacklist_filename=
-;opcache.max_file_size=0
 ;opcache.consistency_checks=0
 ;opcache.force_restart_timeout=180
 ;opcache.error_log=

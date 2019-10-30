@@ -1,17 +1,12 @@
 ---
 
-# Figure out what version of PHP is installed.
-- name: Get installed version of PHP.
-  command: "php -v"
+- name: Check the installed version of PHP.
+  shell: '{{ php_executable }} -r "echo PHP_VERSION;"'
+  register: php_installed_version
   changed_when: false
-  always_run: yes
-  register: _php_version
-  
+  check_mode: no
 
-- name: Check for Opcache
+- name: Disable opcache if PHP version is < 5.5.
   set_fact:
-    opcache_present: true
-  when: _php_version.stdout.find('with Zend OPcache') != -1
-  
-
-  
+    php_opcache_enable: 0
+  when: "php_installed_version.stdout.split('.')[0] == '5' and php_installed_version.stdout.split('.')[1] < '5'"
