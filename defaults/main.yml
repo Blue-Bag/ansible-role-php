@@ -3,7 +3,7 @@
 # for RHEL/CentOS.
 php_enablerepo: ""
 
-php_version: 5
+php_version: 7.4
 # php_version: 7.1
 
 # PHP package state; use 'present' to make sure it's installed, or 'latest' if
@@ -18,6 +18,8 @@ php_enable_webserver: true
 
 # Start and enable the PHP fpm service.
 php_enable_php_fpm: false
+php_fpm_state: started
+php_fpm_enabled_on_boot: true
 php_fpm_listen: "127.0.0.1:9000"
 php_fpm_listen_allowed_clients: "127.0.0.1"
 php_fpm_pm_max_children: 50
@@ -81,6 +83,7 @@ php_sendmail_path: "/usr/sbin/sendmail -t -i"
 php_output_buffering: "4096"
 php_short_open_tag: "Off"
 php_disable_functions: []
+php_precision: 14
 
 # session handling (files | redis)
 php_session_handler: 'files'
@@ -179,3 +182,7 @@ php_source_configure_command: >
 # # If enabled, a fast shutdown sequence is used for the accelerated code
 # #opcache.fast_shutdown=0
 # opcache_fast_shutdown: 1
+
+
+## New values
+php_default_charset: "UTF-8"
