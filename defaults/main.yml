@@ -3,6 +3,8 @@
 # for RHEL/CentOS.
 php_enablerepo: ""
 
+php_packages_extra: []
+
 php_version: 7.4
 # php_version: 7.1
 
@@ -11,14 +13,15 @@ php_version: 7.4
 php_packages_state: present
 
 # Whether to install recommended packages. Used only for Debian/Ubuntu.
-php_install_recommends: yes
+php_install_recommends: true
 
 # Set this to false if you're not using PHP with Apache/Nginx/etc.
 php_enable_webserver: true
 
-# Start and enable the PHP fpm service.
+# PHP-FPM configuration.
 php_enable_php_fpm: false
 php_fpm_state: started
+php_fpm_handler_state: restarted
 php_fpm_enabled_on_boot: true
 php_fpm_listen: "127.0.0.1:9000"
 php_fpm_listen_allowed_clients: "127.0.0.1"
@@ -26,6 +29,20 @@ php_fpm_pm_max_children: 50
 php_fpm_pm_start_servers: 5
 php_fpm_pm_min_spare_servers: 5
 php_fpm_pm_max_spare_servers: 5
+php_fpm_pm_max_requests: 0
+
+# PHP-FPM pool configuration.
+php_fpm_pools:
+  - pool_name: www
+    pool_template: www.conf.j2
+    pool_listen: "{{ php_fpm_listen }}"
+    pool_listen_allowed_clients: "{{ php_fpm_listen_allowed_clients }}"
+    pool_pm: dynamic
+    pool_pm_max_children: "{{ php_fpm_pm_max_children }}"
+    pool_pm_start_servers: "{{ php_fpm_pm_start_servers }}"
+    pool_pm_min_spare_servers: "{{ php_fpm_pm_min_spare_servers }}"
+    pool_pm_max_spare_servers: "{{ php_fpm_pm_max_spare_servers }}"
+    pool_php_fpm_pm_max_requests: "{{ php_fpm_pm_max_requests }}"
 
 # The executable to run when calling PHP from the command line.
 php_executable: "php"
@@ -72,7 +89,7 @@ php_max_file_uploads: "20"
 
 # ; Fopen wrappers ;
 php_allow_url_fopen: "Off"
-php_allow_url_include: "Off"
+php_allow_url_include_tasks: "Off"
 php_default_socket_timeout: "60"
 
 php_post_max_size: "32M"
@@ -84,9 +101,10 @@ php_output_buffering: "4096"
 php_short_open_tag: "Off"
 php_disable_functions: []
 php_precision: 14
+php_serialize_precision: "-1"
 
 # session handling (files | redis)
-php_session_handler: 'files'
+php_session_save_handler: 'files'
 php_session_save_path:  "/tmp"
 php_session_cookie_lifetime: 0
 php_session_gc_probability: 1
@@ -112,6 +130,7 @@ php_source_clone_dir: "~/php-src"
 php_source_clone_depth: 1
 php_source_install_path: "/opt/php"
 php_source_install_gmp_path: "/usr/include/x86_64-linux-gnu/gmp.h"
+php_source_mysql_config: "/usr/bin/mysql_config"
 # For faster compile time: "make --jobs=X" where X is # of cores present.
 php_source_make_command: "make"
 php_source_configure_command: >
@@ -150,7 +169,7 @@ php_source_configure_command: >
   --with-zlib=/usr
   --with-bz2=/usr
   --with-recode=/usr
-  --with-mysqli=/usr/bin/mysql_config
+  --with-mysqli={{ php_source_mysql_config }}
 
 # ; Opcache  ;
 # Determines if Zend OPCache is enabled
