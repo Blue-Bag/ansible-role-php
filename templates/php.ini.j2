@@ -17,7 +17,7 @@ zlib.output_compression = Off
 
 implicit_flush = Off
 unserialize_callback_func =
-serialize_precision = 17
+serialize_precision =  {{ php_serialize_precision }}
 ;open_basedir =
 disable_functions = {{ php_disable_functions|join(",") }}
 disable_classes =
@@ -194,7 +194,7 @@ SMTP = localhost
 smtp_port = 25
 
 ; For Win32 only.
-; http://php.net/sendmail-from
+; https://php.net/sendmail-from
 ;sendmail_from = me@example.com
 
 ; For Unix only.  You may supply arguments as well (default: "sendmail -t -i").
@@ -280,7 +280,7 @@ bcmath.scale = 0
 ;browscap = extra/browscap.ini
 
 [Session]
-session.save_handler = {{ php_session_handler | default('files') }}
+session.save_handler = {{ php_session_save_handler | default('files') }}
 ;session.save_path = "/tmp"
 session.save_path = "{{ php_session_save_path | default('/tmp') }}"
 session.use_cookies = 1
