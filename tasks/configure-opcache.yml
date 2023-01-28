@@ -16,26 +16,14 @@
     - files
   notify: restart webserver
 
-
 - name: Ensure OpCache config file is present.
   template:
     src: opcache.ini.j2
-    dest: "{{ php_mods_avail_paths }}/{{ php_opcache_conf_filename }}"
+    dest: "{{ item }}/{{ php_opcache_conf_filename }}"
     owner: root
     group: root
-    force: yes
+    force: true
     mode: 0644
-  when: php_opcache_enable | bool
-  notify: restart webserver
-
-- name: Ensure OpCache config file link is present.
-  file:
-    src: "{{ php_mods_avail_paths }}/{{ php_opcache_conf_filename }}"
-    dest: "{{ item }}/10-{{ php_opcache_conf_filename }}"
-    owner: root
-    group: root
-    force: yes
-    state: link
   with_items: "{{ php_extension_conf_paths }}"
   when: php_opcache_enable | bool
   notify: restart webserver
@@ -45,5 +33,5 @@
     path: "{{ item }}/{{ php_opcache_conf_filename }}"
     state: absent
   with_items: "{{ php_extension_conf_paths }}"
-  when: not (php_opcache_enable | bool)
+  when: not php_opcache_enable | bool
   notify: restart webserver
