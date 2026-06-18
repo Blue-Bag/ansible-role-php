@@ -49,7 +49,7 @@
 
     - name: Add Ondrej Sury PHP repository
       ansible.builtin.apt_repository:
-        repo: "deb [signed-by=/usr/share/keyrings/php-sury-keyring.gpg] https://packages.sury.org/php/ {{ ansible_distribution_release }} main"
+        repo: "deb [signed-by=/usr/share/keyrings/php-sury-keyring.gpg] https://packages.sury.org/php/ {{ ansible_facts['distribution_release'] }} main"
         state: present
         filename: php-sury
       register: php_ondrej_debian_repo  
@@ -59,7 +59,7 @@
       ansible.builtin.apt: update_cache=yes
       when: php_ondrej_debian_repo.changed
  
-  when: ansible_distribution == "Debian" and ansible_distribution_release  == "bookworm"
+  when: ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_release'] == "bookworm"
  
 
 - name: Ensure PHP packages are installed.
