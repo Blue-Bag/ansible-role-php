@@ -7,7 +7,7 @@
 engine = On
 short_open_tag = {{ php_short_open_tag }}
 asp_tags = Off
-precision = 14
+precision = {{ php_precision }}
 output_buffering = {{ php_output_buffering }}
 ;output_handler =
 
@@ -17,7 +17,7 @@ zlib.output_compression = Off
 
 implicit_flush = Off
 unserialize_callback_func =
-serialize_precision = 17
+serialize_precision =  {{ php_serialize_precision }}
 ;open_basedir =
 disable_functions = {{ php_disable_functions|join(",") }}
 disable_classes =
@@ -90,8 +90,10 @@ auto_prepend_file =
 auto_append_file =
 
 default_mimetype = "text/html"
-;default_charset = "UTF-8"
-always_populate_raw_post_data = -1
+;default_charset = {{ php_default_charset }}
+
+; deprecation in 7
+;always_populate_raw_post_data = -1
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Paths and Directories ;
@@ -192,7 +194,7 @@ SMTP = localhost
 smtp_port = 25
 
 ; For Win32 only.
-; http://php.net/sendmail-from
+; https://php.net/sendmail-from
 ;sendmail_from = me@example.com
 
 ; For Unix only.  You may supply arguments as well (default: "sendmail -t -i").
@@ -278,7 +280,7 @@ bcmath.scale = 0
 ;browscap = extra/browscap.ini
 
 [Session]
-session.save_handler = {{ php_session_handler | default('files') }}
+session.save_handler = {{ php_session_save_handler | default('files') }}
 ;session.save_path = "/tmp"
 session.save_path = "{{ php_session_save_path | default('/tmp') }}"
 session.use_cookies = 1
@@ -290,7 +292,8 @@ session.auto_start = 0
 session.cookie_lifetime = {{ php_session_cookie_lifetime }}
 session.cookie_path = /
 session.cookie_domain =
-session.cookie_httponly =
+session.cookie_httponly = "{{ php_session_cookie_httponly | default('On') }}"
+session.cookie_samesite = "{{ php_session_cookie_samesite | default('Lax') }}"
 
 session.serialize_handler = php
 
@@ -391,4 +394,3 @@ ldap.max_links = -1
 
 [dba]
 ;dba.default_handler=
-

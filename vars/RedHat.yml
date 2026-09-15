@@ -1,12 +1,11 @@
 ---
-__php_packages5:
+__php_packages:
   - php
   - php-cli
   - php-common
   - php-devel
   - php-fpm
   - php-gd
-  - php-imap
   - php-ldap
   - php-mbstring
   - php-opcache
@@ -15,19 +14,13 @@ __php_packages5:
   - php-pecl-apcu
   - php-xml
   - php-xmlrpc
-
-__php_packages7: "{{ __php_packages }}"
 __php_webserver_daemon: "httpd"
 
-__php_conf_paths5:
+__php_conf_paths:
   - /etc
 
-__php_conf_paths7: "{{__php_conf_paths5}}"
-
-__php_extension_conf_paths5:
+__php_extension_conf_paths:
   - /etc/php.d
-
-__php_extension_conf_paths7: "{{ __php_extension_conf_paths5 }}"
 
 __php_apc_conf_filename: 50-apc.ini
 __php_opcache_conf_filename: 10-opcache.ini
@@ -37,4 +30,3 @@ __php_fpm_pool_conf_path: "/etc/php-fpm.d/www.conf"
 
 __php_fpm_pool_user: apache
 __php_fpm_pool_group: apache
-

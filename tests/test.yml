@@ -10,10 +10,11 @@
   pre_tasks:
     - name: Update apt cache.
       apt: update_cache=yes cache_valid_time=600
-      when: ansible_os_family == 'Debian'
+      when: ansible_facts['os_family'] == 'Debian'
       changed_when: false
 
-    - include_vars: test-vars-ubuntu1204.yml
+    - name: Include test vars for ubuntu
+      include_vars: test-vars-ubuntu1204.yml
       when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '12.04'
 
     - name: Add repository for PHP 7.
@@ -26,5 +27,5 @@
 
   roles:
     - role: geerlingguy.repo-remi
-      when: ansible_os_family == 'RedHat' and ansible_distribution != 'Fedora'
+      when: ansible_facts['os_family'] == 'RedHat' and ansible_distribution != 'Fedora'
     - role_under_test
