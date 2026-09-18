@@ -27,7 +27,7 @@
 - block:
     - name: Add dependencies for PHP versions (Debian).
       ansible.builtin.apt:
-        name: ['apt-transport-https','ca-certificates', 'gpg']
+        name: ['apt-transport-https','ca-certificates', 'gpg', 'python3-debian']
 
     # - name: Add Ondrej Sury's apt key (Debian).
     #   ansible.builtin.apt_key:
@@ -47,12 +47,21 @@
         mode: '0644'
         force: true
 
+    - name: Remove legacy Ondrej Sury PHP repository list file
+      ansible.builtin.file:
+        path: /etc/apt/sources.list.d/php-sury.list
+        state: absent
+
     - name: Add Ondrej Sury PHP repository
-      ansible.builtin.apt_repository:
-        repo: "deb [signed-by=/usr/share/keyrings/php-sury-keyring.gpg] https://packages.sury.org/php/ {{ ansible_facts['distribution_release'] }} main"
+      ansible.builtin.deb822_repository:
+        name: php-sury
+        types: deb
+        uris: "https://packages.sury.org/php/"
+        suites: "{{ ansible_facts['distribution_release'] }}"
+        components: main
+        signed_by: /usr/share/keyrings/php-sury-keyring.gpg
         state: present
-        filename: php-sury
-      register: php_ondrej_debian_repo  
+      register: php_ondrej_debian_repo
 
 
     - name: Update apt caches after repo is added (Debian).
