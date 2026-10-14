@@ -5,7 +5,7 @@ php_enablerepo: ""
 
 php_packages_extra: []
 
-php_version: 7.4
+php_version: 8.4
 # php_version: 7.1
 
 # PHP package state; use 'present' to make sure it's installed, or 'latest' if
